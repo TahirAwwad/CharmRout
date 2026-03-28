@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAFTRA Clients - Visual Pin Map</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { 
+            background: #0d1117;
+            color: #e6edf3;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        .container { padding: 15px; max-width: 600px; margin: 0 auto; }
+        
+        h1 { 
+            color: #58a6ff; 
+            font-size: 1.3rem; 
+            text-align: center; 
+            margin-bottom: 10px; 
+        }
+        
+        /* Static Map Image Container */
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #1a3a5c 0%, #0d1117 100%);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #30363d;
+            margin-bottom: 20px;
+        }
+        
+        /* Grid representation of US */
+        .us-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            height: 100%;
+            width: 100%;
+        }
+        
+        .region-label {
+            position: absolute;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        /* Pin markers */
+        .pin {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            cursor: pointer;
+            z-index: 10;
+            animation: pulse 2s infinite;
+        }
+        
+        .pin::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: rotate(-45deg) scale(1); }
+            50% { transform: rotate(-45deg) scale(1.1); }
+        }
+        
+        .pin:hover { z-index: 100; }
+        
+        .pin:hover::before {
+            content: attr(data-name);
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #161b22;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            white-space: nowrap;
+            white-space: pre-wrap;
+            text-align: center;
+            max-width: 120px;
+            z-index: 100;
+        }
+        
+        /* State colors */
+        .pin-va { background: #e94560; left: 35%; top: 30%; }
+        .pin-ny { background: #ffd700; left: 45%; top: 25%; }
+        .pin-pa { background: #4ecca3; left: 40%; top: 28%; }
+        .pin-mi { background: #00bfff; left: 32%; top: 22%; }
+        .pin-md { background: #9b59b6; left: 42%; top: 32%; }
+        .pin-dc { background: #f39c12; left: 42%; top: 31%; }
+        
+        /* Legend */
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75rem;
+            color: #8b949e;
+        }
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        /* Store List */
+        .section {
+            background: #161b22;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #30363d;
+        }
+        
+        .section-header {
+            background: #21262d;
+            padding: 10px 15px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-title {
+            color: #e6edf3;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .section-count {
+            background: #58a6ff;
+            color: #0d1117;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        
+        .store-list { padding: 10px 15px; }
+        
+        .store-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #21262d;
+        }
+        
+        .store-item:last-child { border-bottom: none; }
+        
+        .store-name { color: #e6edf3; font-size: 0.85rem; }
+        .store-city { color: #8b949e; font-size: 0.75rem; }
+        
+        .map-btn {
+            background: #58a6ff;
+            color: #0d1117;
+            padding: 5px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗺️ DAFTRA Clients - Visual Map</h1>
+        
+        <!-- Static Visual Map -->
+        <div class="map-container">
+            <div class="us-grid">
+                <!-- Virginia Pins -->
+                <div class="pin pin-va" data-name="Danville" style="left:28%; top:35%;"></div>
+                <div class="pin pin-va" data-name="Manassas" style="left:32%; top:28%;"></div>
+                <div class="pin pin-va" data-name="Newport News" style="left:38%; top:32%;"></div>
+                <div class="pin pin-va" data-name="Portsmouth" style="left:36%; top:31%;"></div>
+                <div class="pin pin-va" data-name="Richmond" style="left:34%; top:30%;"></div>
+                <div class="pin pin-va" data-name="Virginia Beach" style="left:42%; top:35%;"></div>
+                
+                <!-- NY Pins -->
+                <div class="pin pin-ny" data-name="Bronx" style="left:48%; top:22%;"></div>
+                <div class="pin pin-ny" data-name="Brooklyn" style="left:47%; top:23%;"></div>
+                <div class="pin pin-ny" data-name="Buffalo" style="left:44%; top:18%;"></div>
+                <div class="pin pin-ny" data-name="Rochester" style="left:45%; top:19%;"></div>
+                <div class="pin pin-ny" data-name="Syracuse" style="left:46%; top:17%;"></div>
+                
+                <!-- PA Pins -->
+                <div class="pin pin-pa" data-name="Pittsburgh" style="left:38%; top:24%;"></div>
+                
+                <!-- MI Pins -->
+                <div class="pin pin-mi" data-name="Detroit" style="left:30%; top:20%;"></div>
+                <div class="pin pin-mi" data-name="Flint" style="left:28%; top:18%;"></div>
+                <div class="pin pin-mi" data-name="Kalamazoo" style="left:26%; top:22%;"></div>
+                
+                <!-- MD/DC Pins -->
+                <div class="pin pin-md" data-name="Seat Pleasant" style="left:40%; top:28%;"></div>
+                <div class="pin pin-dc" data-name="Washington DC" style="left:40%; top:27%;"></div>
+            </div>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#e94560;"></div> VA</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#ffd700;"></div> NY</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#4ecca3;"></div> PA</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#00bfff;"></div> MI</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#9b59b6;"></div> MD</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#f39c12;"></div> DC</div>
+        </div>
+        
+        <!-- Store Lists by State -->
+        
+        <div class="section">
+            <div class="section-header">
+                <span class="section-title">Virginia (8)</span>
+                <span class="section-count">8</span>
+            </div>
+            <div class="store-list">
+                <div class="store-item"><div><div class="store-name">Fabulous Beauty Supply 2</div><div class="store-city">Danville, VA</div></div><a href="https://www.google.com/maps/search/1459+South+Boston+Rd+Danville+VA" class="map-btn" target="_blank">Map</a></div>
+                <div class="store-item"><div><div class="store-name">Beauty Palace & Supplies</div><div class="store-city">Manassas, VA</div></div><a href="https://www.google.com/maps/search/9550+Liberia+Ave+Manassas+VA" class="map-btn" target="_blank">Map</a></div>
+                <div class="store-item"><div><div class="store-name">Hair Galleria</div><div class="store-city">Newport News, VA</div></div><a href="https://www.google.com/maps/search/Hair+Galleria+Newport+News+VA" class="map-btn" target="_blank">Map</a></div>
+                <div class="store-item"><div><div class="store-name">Beauty Master</div><div class="store-city">Portsmouth, VA</div></div><a href="https://www.google.com/maps/search/Beauty+Master+Portsmouth+VA" class="map-btn" target="_blank">Map</a></div>
+                <div class="store-item"><div><div class="store-name">The Hair Palace</div><div class="store-city">Richmond, VA</div></div><a href="https://www.google.com/maps/search/The+Hair+Palace+Richmond+VA" class="map-btn" target="_blank">Map</a></div>
+                <div class="store-item"><div><div class="store-name">Lux Beauty</div><div class="store-city">Virginia Beach, VA</div></div><a href="https://www.google.com/maps/search/Lux+Beauty+Virginia+Beach+VA" class="map-btn" target="_blank">Map</a></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <span class="section-title">New York (7)</span>
+                <span class="section-count">7</span>
+            </div>
+            <div class="store-list">
+                <div class="store-item"><div><div class="store-name">Beauty Feel Supply</div><div class="store-city">Bronx, NY</div></div><a href="https://www.google.com/maps/search/Beauty+Feel+Supply+Bronx+NY" class="map-btn" target="_blank">Map</a></div>
+                <div class="store-item"><div><div class="store-name">Moon Beauty Supply</div><div class="store-city">Brooklyn, NY</div></div><a href="https://www.google.com/maps/search/Moon+Beauty+Supply+Brooklyn+NY" class="map-btn" target="_blank">Map</a></div>
+                <div class="store-item"><div><div class="store-name">Hair Que</div><div class="store-city">Buffalo, NY</div></div><a href="https://www.google.com/maps/search/Hair+Que+Buffalo+NY" class="map-btn" target="_blank">Map</a></div>
+                <div class="store-item"><div><div class="store-name">Hair Galleria</div><div class="store-city">Rochester, NY</div></div><a href="https://www.google.com/maps/search/Hair+Galleria+Rochester+NY" class="map-btn" target="_blank">Map</a></div>
+                <div class="store-item"><div><div class="store-name">Lux Beauty Supply</div><div class="store-city">Syracuse, NY</div></div><a href="https://www.google.com/maps/search/Lux+Beauty+Supply+Syracuse+NY" class="map-btn" target="_blank">Map</a></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <span class="section-title">Pennsylvania (7)</span>
+                <span class="section-count">7</span>
+            </div>
+            <div class="store-list">
+                <div class="store-item"><div><div class="store-name">Modern Hair Beauty Supply</div><div class="store-city">Pittsburgh, PA</div></div><a href="https://www.google.com/maps/search/Modern+Hair+Beauty+Pittsburgh+PA" class="map-btn" target="_blank">Map</a></div>
+                <div class="store-item"><div><div class="store-name">Hair World PA</div><div class="store-city">Penn Hills, PA</div></div><a href="https://www.google.com/maps/search/Hair+World+Penn+Hills+PA" class="map-btn" target="_blank">Map</a></div>
+                <div class="store-item"><div><div class="store-name">Elegant Beauty 1</div><div class="store-city">Pittsburgh, PA</div></div><a href="https://www.google.com/maps/search/Elegant+Beauty+Pittsburgh+PA" class="map-btn" target="_blank">Map</a></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <span class="section-title">Michigan (8)</span>
+                <span class="section-count">8</span>
+            </div>
+            <div class="store-list">
+                <div class="store-item"><div><div class="store-name">Beauty Plus</div><div class="store-city">Detroit, MI</div></div><a href="https://www.google.com/maps/search/Beauty+Plus+Detroit+MI" class="map-btn" target="_blank">Map</a></div>
+                <div class="store-item"><div><div class="store-name">Sapphire Beauty</div><div class="store-city">Detroit, MI</div></div><a href="https://www.google.com/maps/search/Sapphire+Beauty+Detroit+MI" class="map-btn" target="_blank">Map</a></div>
+                <div class="store-item"><div><div class="store-name">M & A Beauty Supply</div><div class="store-city">Flint, MI</div></div><a href="https://www.google.com/maps/search/M+A+Beauty+Supply+Flint+MI" class="map-btn" target="_blank">Map</a></div>
+                <div class="store-item"><div><div class="store-name">Unique Fashion & Beauty</div><div class="store-city">Kalamazoo, MI</div></div><a href="https://www.google.com/maps/search/Unique+Fashion+Beauty+Kalamazoo+MI" class="map-btn" target="_blank">Map</a></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <span class="section-title">Maryland (3) + DC (1)</span>
+                <span class="section-count">4</span>
+            </div>
+            <div class="store-list">
+                <div class="store-item"><div><div class="store-name">Super Beauty</div><div class="store-city">Seat Pleasant, MD</div></div><a href="https://www.google.com/maps/search/Super+Beauty+Seat+Pleasant+MD" class="map-btn" target="_blank">Map</a></div>
+                <div class="store-item"><div><div class="store-name">Number 1 Beauty Supply</div><div class="store-city">Washington, DC</div></div><a href="https://www.google.com/maps/search/Number+1+Beauty+Supply+Washington+DC" class="map-btn" target="_blank">Map</a></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
