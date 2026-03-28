@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DAFTRA Clients - Map with Google Maps Links</title>
+    <style>
+        @page { size: letter; margin: 0.5in; }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 15px; color: #000; background: white; }
+        h1 { text-align: center; color: #1a1a1a; margin-bottom: 3px; font-size: 20px; }
+        .subtitle { text-align: center; color: #666; font-size: 11px; margin-bottom: 12px; }
+        
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            border: 2px solid #333;
+            margin-bottom: 12px;
+            background: linear-gradient(180deg, #e8f4e8 0%, #d0e8d0 50%, #c0dcc0 100%);
+            overflow: hidden;
+        }
+        
+        .map-container::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 5%;
+            right: 5%;
+            bottom: 10%;
+            border: 1px solid #999;
+            border-radius: 5px;
+        }
+        
+        .state-label {
+            position: absolute;
+            font-size: 9px;
+            color: #888;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .pin {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .pin::after {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: white;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .pin-va { background: #e94560; }
+        .pin-ny { background: #ffd700; }
+        .pin-pa { background: #28a745; }
+        .pin-mi { background: #17a2b8; }
+        .pin-md { background: #6f42c1; }
+        .pin-dc { background: #fd7e14; }
+        
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 12px;
+            font-size: 10px;
+        }
+        .legend-item { display: flex; align-items: center; gap: 4px; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; border: 1px solid #333; }
+        
+        .state-section { margin-bottom: 10px; page-break-inside: avoid; }
+        .state-header {
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .state-header span {
+            float: right;
+            background: white;
+            color: #333;
+            padding: 0 6px;
+            border-radius: 8px;
+            font-size: 10px;
+        }
+        
+        table { width: 100%; border-collapse: collapse; font-size: 9px; }
+        th, td { border: 1px solid #ccc; padding: 4px 6px; text-align: left; }
+        th { background: #f5f5f5; }
+        
+        .map-link {
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 9px;
+        }
+        
+        .footer {
+            text-align: center;
+            font-size: 9px;
+            color: #999;
+            margin-top: 10px;
+            border-top: 1px solid #ddd;
+            padding-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>📍 DAFTRA Clients - 34 Locations</h1>
+    <p class="subtitle">Virginia • New York • Pennsylvania • Michigan • Maryland • Washington DC</p>
+    
+    <div class="map-container">
+        <div class="state-label" style="left:25%; top:15%;">MI</div>
+        <div class="state-label" style="left:38%; top:20%;">OH</div>
+        <div class="state-label" style="left:50%; top:25%;">WV</div>
+        <div class="state-label" style="left:60%; top:30%;">VA</div>
+        <div class="state-label" style="left:75%; top:18%;">NY</div>
+        
+        <div class="pin pin-va" style="left:30%; top:42%;"></div>
+        <div class="pin pin-va" style="left:26%; top:30%;"></div>
+        <div class="pin pin-va" style="left:38%; top:38%;"></div>
+        <div class="pin pin-va" style="left:36%; top:36%;"></div>
+        <div class="pin pin-va" style="left:32%; top:34%;"></div>
+        <div class="pin pin-va" style="left:44%; top:44%;"></div>
+        
+        <div class="pin pin-ny" style="left:58%; top:28%;"></div>
+        <div class="pin pin-ny" style="left:56%; top:30%;"></div>
+        <div class="pin pin-ny" style="left:52%; top:22%;"></div>
+        <div class="pin pin-ny" style="left:54%; top:24%;"></div>
+        <div class="pin pin-ny" style="left:56%; top:20%;"></div>
+        
+        <div class="pin pin-pa" style="left:40%; top:28%;"></div>
+        
+        <div class="pin pin-mi" style="left:26%; top:22%;"></div>
+        <div class="pin pin-mi" style="left:24%; top:20%;"></div>
+        <div class="pin pin-mi" style="left:22%; top:18%;"></div>
+        <div class="pin pin-mi" style="left:20%; top:26%;"></div>
+        
+        <div class="pin pin-md" style="left:48%; top:32%;"></div>
+        <div class="pin pin-dc" style="left:46%; top:30%;"></div>
+    </div>
+    
+    <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#e94560;"></div> VA</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ffd700;"></div> NY</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#28a745;"></div> PA</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#17a2b8;"></div> MI</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#6f42c1;"></div> MD</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#fd7e14;"></div> DC</div>
+    </div>
+
+    <div class="state-section">
+        <div class="state-header">Virginia <span>8</span></div>
+        <table>
+            <tr><th>Client</th><th>City</th><th>Map</th></tr>
+            <tr><td>Fabulous Beauty Supply 2</td><td>Danville</td><td><a class="map-link" href="https://www.google.com/maps/search/1459+South+Boston+Rd+Danville+VA" target="_blank">📍 View</a></td></tr>
+            <tr><td>Beauty Palace & Supplies</td><td>Manassas</td><td><a class="map-link" href="https://www.google.com/maps/search/9550+Liberia+Ave+Manassas+VA" target="_blank">📍 View</a></td></tr>
+            <tr><td>Hair Galleria</td><td>Newport News</td><td><a class="map-link" href="https://www.google.com/maps/search/23+Newmarket+Square+Newport+News+VA" target="_blank">📍 View</a></td></tr>
+            <tr><td>Beauty Master</td><td>Portsmouth</td><td><a class="map-link" href="https://www.google.com/maps/search/2330+Portsmouth+Blvd+Portsmouth+VA" target="_blank">📍 View</a></td></tr>
+            <tr><td>The Hair Palace</td><td>Richmond</td><td><a class="map-link" href="https://www.google.com/maps/search/3041+Mechanicsville+Tpke+Richmond+VA" target="_blank">📍 View</a></td></tr>
+            <tr><td>Lux Beauty</td><td>Virginia Beach</td><td><a class="map-link" href="https://www.google.com/maps/search/6537+College+Park+Square+Virginia+Beach+VA" target="_blank">📍 View</a></td></tr>
+        </table>
+    </div>
+
+    <div class="state-section">
+        <div class="state-header">New York <span>7</span></div>
+        <table>
+            <tr><th>Client</th><th>City</th><th>Map</th></tr>
+            <tr><td>Beauty Feel Supply</td><td>Bronx</td><td><a class="map-link" href="https://www.google.com/maps/search/110+E+170th+St+Bronx+NY" target="_blank">📍 View</a></td></tr>
+            <tr><td>Moon Beauty Supply</td><td>Brooklyn</td><td><a class="map-link" href="https://www.google.com/maps/search/853+Utica+Ave+Brooklyn+NY" target="_blank">📍 View</a></td></tr>
+            <tr><td>Hair Que</td><td>Buffalo</td><td><a class="map-link" href="https://www.google.com/maps/search/2245+Delaware+Ave+Buffalo+NY" target="_blank">📍 View</a></td></tr>
+            <tr><td>Hair Galleria</td><td>Rochester</td><td><a class="map-link" href="https://www.google.com/maps/search/1115+Hudson+Ave+Rochester+NY" target="_blank">📍 View</a></td></tr>
+            <tr><td>Lux Beauty Supply</td><td>Syracuse</td><td><a class="map-link" href="https://www.google.com/maps/search/101+E+Seneca+Turnpike+Syracuse+NY" target="_blank">📍 View</a></td></tr>
+        </table>
+    </div>
+
+    <div class="state-section">
+        <div class="state-header">Pennsylvania <span>7</span></div>
+        <table>
+            <tr><th>Client</th><th>City</th><th>Map</th></tr>
+            <tr><td>Modern Hair Beauty Supply</td><td>Pittsburgh</td><td><a class="map-link" href="https://www.google.com/maps/search/220+Brownsville+Road+Pittsburgh+PA" target="_blank">📍 View</a></td></tr>
+            <tr><td>Hair World PA</td><td>Penn Hills</td><td><a class="map-link" href="https://www.google.com/maps/search/10740+Frankstown+Road+Penn+Hills+PA" target="_blank">📍 View</a></td></tr>
+            <tr><td>Elegant Beauty 1</td><td>Pittsburgh</td><td><a class="map-link" href="https://www.google.com/maps/search/2140+Wylie+Avenue+Pittsburgh+PA" target="_blank">📍 View</a></td></tr>
+            <tr><td>Sky's the Limit</td><td>Pittsburgh</td><td><a class="map-link" href="https://www.google.com/maps/search/6113+Broad+Street+Pittsburgh+PA" target="_blank">📍 View</a></td></tr>
+            <tr><td>The Hair Depot PA</td><td>Pittsburgh</td><td><a class="map-link" href="https://www.google.com/maps/search/1763+South+Braddock+Avenue+Pittsburgh+PA" target="_blank">📍 View</a></td></tr>
+        </table>
+    </div>
+
+    <div class="state-section">
+        <div class="state-header">Michigan <span>8</span></div>
+        <table>
+            <tr><th>Client</th><th>City</th><th>Map</th></tr>
+            <tr><td>Beauty Plus</td><td>Detroit</td><td><a class="map-link" href="https://www.google.com/maps/search/20240+Seven+Mile+West+Detroit+MI" target="_blank">📍 View</a></td></tr>
+            <tr><td>Sapphire Beauty</td><td>Detroit</td><td><a class="map-link" href="https://www.google.com/maps/search/13939+Livernois+Ave+Detroit+MI" target="_blank">📍 View</a></td></tr>
+            <tr><td>M & A Beauty Supply</td><td>Flint</td><td><a class="map-link" href="https://www.google.com/maps/search/3717+Fenton+Road+Flint+MI" target="_blank">📍 View</a></td></tr>
+            <tr><td>Unique Fashion & Beauty</td><td>Kalamazoo</td><td><a class="map-link" href="https://www.google.com/maps/search/744+North+Westnedge+Ave+Kalamazoo+MI" target="_blank">📍 View</a></td></tr>
+        </table>
+    </div>
+
+    <div class="state-section">
+        <div class="state-header">Maryland (3) + DC (1) <span>4</span></div>
+        <table>
+            <tr><th>Client</th><th>City</th><th>Map</th></tr>
+            <tr><td>Super Beauty</td><td>Seat Pleasant, MD</td><td><a class="map-link" href="https://www.google.com/maps/search/6304+Central+Ave+Seat+Pleasant+MD" target="_blank">📍 View</a></td></tr>
+            <tr><td>Super Beauty</td><td>Hyattsville, MD</td><td><a class="map-link" href="https://www.google.com/maps/search/7778+Landover+Road+Hyattsville+MD" target="_blank">📍 View</a></td></tr>
+            <tr><td>Number 1 Beauty Supply</td><td>Washington DC</td><td><a class="map-link" href="https://www.google.com/maps/search/2847+Alabama+Ave+SE+Washington+DC" target="_blank">📍 View</a></td></tr>
+        </table>
+    </div>
+
+    <div class="footer">
+        Generated from DAFTRA CRM • Total: 34 Clients • Click "📍 View" to open Google Maps
+    </div>
+</body>
+</html>
