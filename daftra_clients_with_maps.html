@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAFTRA Clients - Exact Locations</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { 
+            height: auto;
+            min-height: 100%;
+            background: #0d1117;
+            color: #e6edf3;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+        }
+        
+        .container {
+            max-width: 100%;
+            padding: 15px;
+            padding-bottom: 80px;
+        }
+        
+        h1 {
+            color: #58a6ff;
+            font-size: 1.3rem;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            color: #8b949e;
+            text-align: center;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+        
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .stat {
+            background: #161b22;
+            padding: 6px 10px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .stat-num { color: #58a6ff; font-weight: bold; font-size: 0.9rem; }
+        .stat-label { color: #8b949e; font-size: 0.65rem; }
+        
+        .view-all-btn {
+            display: block;
+            width: 90%;
+            max-width: 350px;
+            margin: 15px auto;
+            background: #238636;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+        
+        .state-section {
+            background: #161b22;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+        }
+        
+        .state-header {
+            background: #21262d;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #30363d;
+        }
+        
+        .state-name { color: #e6edf3; font-weight: bold; font-size: 0.95rem; }
+        .state-count { background: #58a6ff; color: #0d1117; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem; font-weight: bold; }
+        
+        .view-all-btn-state {
+            display: block;
+            background: #1f6feb;
+            color: white;
+            padding: 8px 15px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-top: 1px solid #30363d;
+        }
+        .view-all-btn-state:hover { background: #388bfd; }
+        
+        .client-list { padding: 10px 15px; }
+        
+        .client-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #21262d;
+        }
+        .client-item:last-child { border-bottom: none; }
+        
+        .client-info { flex: 1; min-width: 0; padding-right: 10px; }
+        .client-name { color: #e6edf3; font-size: 0.85rem; font-weight: 500; }
+        .client-address { color: #8b949e; font-size: 0.75rem; margin-top: 2px; }
+        
+        .map-link {
+            background: #58a6ff;
+            color: #0d1117;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📍 DAFTRA Clients - Exact Locations</h1>
+        <p class="subtitle">Only the stores from your list • Click state to view all pins</p>
+        
+        <div class="stats">
+            <div class="stat"><span class="stat-num">8</span><span class="stat-label">VA</span></div>
+            <div class="stat"><span class="stat-num">7</span><span class="stat-label">NY</span></div>
+            <div class="stat"><span class="stat-num">7</span><span class="stat-label">PA</span></div>
+            <div class="stat"><span class="stat-num">8</span><span class="stat-label">MI</span></div>
+            <div class="stat"><span class="stat-num">3</span><span class="stat-label">MD</span></div>
+            <div class="stat"><span class="stat-num">1</span><span class="stat-label">DC</span></div>
+        </div>
+
+        <!-- Virginia - search by store names -->
+        <div class="state-section">
+            <div class="state-header">
+                <span class="state-name">Virginia (8)</span>
+                <span class="state-count">8</span>
+            </div>
+            <div class="client-list">
+                <div class="client-item"><div class="client-info"><div class="client-name">VA1459 - Fabulous Beauty Supply 2</div><div class="client-address">1459 South Boston Rd, Danville, VA</div></div><a href="https://www.google.com/maps/search/Fabulous+Beauty+Supply+Danville+VA" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">VA9550 - Beauty Palace & Supplies</div><div class="client-address">9550 Liberia Ave, Manassas, VA</div></div><a href="https://www.google.com/maps/search/Beauty+Palace+Supplies+Manassas+VA" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">VA23 - Hair Galleria</div><div class="client-address">23 Newmarket Square, Newport News, VA</div></div><a href="https://www.google.com/maps/search/Hair+Galleria+Newport+News+VA" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">VA2330 - Beauty Master</div><div class="client-address">2330 Portsmouth Blvd, Portsmouth, VA</div></div><a href="https://www.google.com/maps/search/Beauty+Master+Portsmouth+VA" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">VA3041 - The Hair Palace</div><div class="client-address">3041 Mechanicsville Tpke, Richmond, VA</div></div><a href="https://www.google.com/maps/search/The+Hair+Palace+Richmond+VA" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">VA449 - Hair Palace Southside Inc</div><div class="client-address">449 E Belt Blvd, Richmond, VA</div></div><a href="https://www.google.com/maps/search/Hair+Palace+Southside+Richmond+VA" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">VA6537 - Lux Beauty</div><div class="client-address">6537 College Park Square, Virginia Beach, VA</div></div><a href="https://www.google.com/maps/search/Lux+Beauty+Virginia+Beach+VA" class="map-link" target="_blank">📍 Map</a></div>
+            </div>
+            <a href="https://www.google.com/maps/search/Fabulous+Beauty+Supply+Danville+VA/Beauty+Palace+Manassas+VA/Hair+Galleria+Newport+News+VA/Beauty+Master+Portsmouth+VA/The+Hair+Palace+Richmond+VA/Lux+Beauty+Virginia+Beach+VA" class="view-all-btn-state" target="_blank">🗺️ View All 8 VA Stores (Pins)</a>
+        </div>
+
+        <!-- New York -->
+        <div class="state-section">
+            <div class="state-header">
+                <span class="state-name">New York (7)</span>
+                <span class="state-count">7</span>
+            </div>
+            <div class="client-list">
+                <div class="client-item"><div class="client-info"><div class="client-name">NY110 - Beauty Feel Supply</div><div class="client-address">110 E 170th St, Bronx, NY 10452</div></div><a href="https://www.google.com/maps/search/Beauty+Feel+Supply+Bronx+NY" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">NY853 - Moon Beauty Supply</div><div class="client-address">853 Utica Ave, Brooklyn, NY 11203</div></div><a href="https://www.google.com/maps/search/Moon+Beauty+Supply+Brooklyn+NY" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">NY2245 - Hair Que</div><div class="client-address">2245 Delaware Ave, Buffalo, NY 14216</div></div><a href="https://www.google.com/maps/search/Hair+Que+Buffalo+NY" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">NY427 - Eve Hair & Beauty Supply</div><div class="client-address">427 Tonawanda St, Buffalo, NY 14207</div></div><a href="https://www.google.com/maps/search/Eve+Hair+Beauty+Buffalo+NY" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">NY1115 - Hair Galleria</div><div class="client-address">1115 Hudson Ave, Rochester, NY 14621</div></div><a href="https://www.google.com/maps/search/Hair+Galleria+Rochester+NY" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">NY426 - Lavish Beauty Supply</div><div class="client-address">426 Lyell Ave, Rochester, NY 14606</div></div><a href="https://www.google.com/maps/search/Lavish+Beauty+Supply+Rochester+NY" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">NY101 - Lux Beauty Supply</div><div class="client-address">101 E Seneca Turnpike, Syracuse, NY 13205</div></div><a href="https://www.google.com/maps/search/Lux+Beauty+Supply+Syracuse+NY" class="map-link" target="_blank">📍 Map</a></div>
+            </div>
+            <a href="https://www.google.com/maps/search/Beauty+Feel+Supply+Bronx+NY/Moon+Beauty+Brooklyn+NY/Hair+Que+Buffalo+NY/Eve+Hair+Buffalo+NY/Hair+Galleria+Rochester+NY/Lavish+Beauty+Rochester+NY/Lux+Beauty+Syracuse+NY" class="view-all-btn-state" target="_blank">🗺️ View All 7 NY Stores (Pins)</a>
+        </div>
+
+        <!-- Pennsylvania -->
+        <div class="state-section">
+            <div class="state-header">
+                <span class="state-name">Pennsylvania (7)</span>
+                <span class="state-count">7</span>
+            </div>
+            <div class="client-list">
+                <div class="client-item"><div class="client-info"><div class="client-name">PA220 - Modern Hair Beauty Supply</div><div class="client-address">220 Brownsville Road, Pittsburgh, PA</div></div><a href="https://www.google.com/maps/search/Modern+Hair+Beauty+Pittsburgh+PA" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">PA10740 - Hair World PA</div><div class="client-address">10740 Frankstown Road, Penn Hills, PA</div></div><a href="https://www.google.com/maps/search/Hair+World+Penn+Hills+PA" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">PA2140 - Elegant Beauty 1</div><div class="client-address">2140 Wylie Avenue, Pittsburgh, PA</div></div><a href="https://www.google.com/maps/search/Elegant+Beauty+Pittsburgh+PA" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">PA723 - Hair Land & Fashion</div><div class="client-address">723 Penn Avenue, Pittsburgh, PA</div></div><a href="https://www.google.com/maps/search/Hair+Land+Fashion+Pittsburgh+PA" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">PA533 - Queen's Hair & Beauty</div><div class="client-address">533 East Ohio Street, Pittsburgh, PA</div></div><a href="https://www.google.com/maps/search/Queens+Hair+Beauty+Pittsburgh+PA" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">PA6113 - Sky's the Limit</div><div class="client-address">6113 Broad Street, Pittsburgh, PA</div></div><a href="https://www.google.com/maps/search/Skys+the+Limit+Pittsburgh+PA" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">PA1763 - The Hair Depot PA</div><div class="client-address">1763 South Braddock Avenue, Pittsburgh, PA</div></div><a href="https://www.google.com/maps/search/Hair+Depot+Pittsburgh+PA" class="map-link" target="_blank">📍 Map</a></div>
+            </div>
+            <a href="https://www.google.com/maps/search/Modern+Hair+Pittsburgh+PA/Hair+World+Penn+Hills+PA/Elegant+Beauty+Pittsburgh+PA/Hair+Land+Pittsburgh+PA/Queens+Beauty+Pittsburgh+PA/Skys+Limit+Pittsburgh+PA/Hair+Depot+Pittsburgh+PA" class="view-all-btn-state" target="_blank">🗺️ View All 7 PA Stores (Pins)</a>
+        </div>
+
+        <!-- Michigan -->
+        <div class="state-section">
+            <div class="state-header">
+                <span class="state-name">Michigan (8)</span>
+                <span class="state-count">8</span>
+            </div>
+            <div class="client-list">
+                <div class="client-item"><div class="client-info"><div class="client-name">MI20240 - Beauty Plus</div><div class="client-address">20240 Seven Mile W, Detroit, MI 48219</div></div><a href="https://www.google.com/maps/search/Beauty+Plus+Detroit+MI" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">MI7746 - Kay Beauty Supply</div><div class="client-address">7746 Wyoming Ave, Dearborn, MI</div></div><a href="https://www.google.com/maps/search/Kay+Beauty+Supply+Dearborn+MI" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">MI13939 - Sapphire Beauty</div><div class="client-address">13939 Livernois Ave, Detroit, MI</div></div><a href="https://www.google.com/maps/search/Sapphire+Beauty+Detroit+MI" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">MI3717 - M & A Beauty Supply</div><div class="client-address">3717 Fenton Rd, Flint, MI</div></div><a href="https://www.google.com/maps/search/M+A+Beauty+Supply+Flint+MI" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">MI744 - Unique Fashion & Beauty</div><div class="client-address">744 N Westnedge Ave, Kalamazoo, MI</div></div><a href="https://www.google.com/maps/search/Unique+Fashion+Beauty+Kalamazoo+MI" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">MI19045 - Jin Wig & Beauty</div><div class="client-address">19045 Middlebelt Rd, Livonia, MI</div></div><a href="https://www.google.com/maps/search/Jin+Wig+Beauty+Livonia+MI" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">MI27155 - Crown Jewel Beauty</div><div class="client-address">27155 Greenfield Rd, Southfield, MI</div></div><a href="https://www.google.com/maps/search/Crown+Jewel+Beauty+Southfield+MI" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">MI35150 - Beauty Central</div><div class="client-address">35150 Central City Pkwy, Westland, MI</div></div><a href="https://www.google.com/maps/search/Beauty+Central+Westland+MI" class="map-link" target="_blank">📍 Map</a></div>
+            </div>
+            <a href="https://www.google.com/maps/search/Beauty+Plus+Detroit+MI/Kay+Beauty+Dearborn+MI/Sapphire+Detroit+MI/M+A+Beauty+Flint+MI/Unique+Beauty+Kalamazoo+MI/Jin+Wig+Livonia+MI/Crown+Jewel+Southfield+MI/Beauty+Central+Westland+MI" class="view-all-btn-state" target="_blank">🗺️ View All 8 MI Stores (Pins)</a>
+        </div>
+
+        <!-- Maryland -->
+        <div class="state-section">
+            <div class="state-header">
+                <span class="state-name">Maryland (3)</span>
+                <span class="state-count">3</span>
+            </div>
+            <div class="client-list">
+                <div class="client-item"><div class="client-info"><div class="client-name">MD6304 - Super Beauty</div><div class="client-address">6304 Central Ave, Seat Pleasant, MD 20743</div></div><a href="https://www.google.com/maps/search/Super+Beauty+Seat+Pleasant+MD" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">MD7778 - Super Beauty</div><div class="client-address">7778B Landover Rd, Hyattsville, MD 20785</div></div><a href="https://www.google.com/maps/search/Super+Beauty+Hyattsville+MD" class="map-link" target="_blank">📍 Map</a></div>
+                <div class="client-item"><div class="client-info"><div class="client-name">MD7780 - The Hair Depot One LLC</div><div class="client-address">7780 Marlboro Pike, Forestville, MD 20747</div></div><a href="https://www.google.com/maps/search/Hair+Depot+Forestville+MD" class="map-link" target="_blank">📍 Map</a></div>
+            </div>
+            <a href="https://www.google.com/maps/search/Super+Beauty+Seat+Pleasant+MD/Super+Beauty+Hyattsville+MD/Hair+Depot+Forestville+MD" class="view-all-btn-state" target="_blank">🗺️ View All 3 MD Stores (Pins)</a>
+        </div>
+
+        <!-- Washington DC -->
+        <div class="state-section">
+            <div class="state-header">
+                <span class="state-name">Washington DC (1)</span>
+                <span class="state-count">1</span>
+            </div>
+            <div class="client-list">
+                <div class="client-item"><div class="client-info"><div class="client-name">DC2847 - Number 1 Beauty Supply</div><div class="client-address">2847 Alabama Ave SE, Washington, DC 20020</div></div><a href="https://www.google.com/maps/search/Number+1+Beauty+Supply+Washington+DC" class="map-link" target="_blank">📍 Map</a></div>
+            </div>
+            <a href="https://www.google.com/maps/search/Number+1+Beauty+Supply+Washington+DC" class="view-all-btn-state" target="_blank">🗺️ View DC Store on Map</a>
+        </div>
+    </div>
+</body>
+</html>
