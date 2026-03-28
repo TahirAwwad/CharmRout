@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DAFTRA Clients - Map with Background</title>
+    <style>
+        @page { size: letter; margin: 0.5in; }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; color: #000; background: white; }
+        h1 { text-align: center; color: #1a1a1a; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #666; font-size: 12px; margin-bottom: 15px; }
+        
+        /* Map with US states background */
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: 320px;
+            border: 2px solid #333;
+            margin-bottom: 15px;
+            background: linear-gradient(180deg, #e8f4e8 0%, #d0e8d0 50%, #c0dcc0 100%);
+            overflow: hidden;
+        }
+        
+        /* Simple US outline representation */
+        .map-container::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 5%;
+            right: 5%;
+            bottom: 10%;
+            border: 1px solid #999;
+            border-radius: 5px;
+        }
+        
+        /* State labels */
+        .state-label {
+            position: absolute;
+            font-size: 9px;
+            color: #888;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        /* Pin markers */
+        .pin {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .pin::after {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: white;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        /* Pin tooltips on hover */
+        .pin:hover::before {
+            content: attr(data-name);
+            position: absolute;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 9px;
+            white-space: nowrap;
+            z-index: 100;
+        }
+        
+        /* Color coding */
+        .pin-va { background: #e94560; }
+        .pin-ny { background: #ffd700; }
+        .pin-pa { background: #28a745; }
+        .pin-mi { background: #17a2b8; }
+        .pin-md { background: #6f42c1; }
+        .pin-dc { background: #fd7e14; }
+        
+        /* Legend */
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 15px;
+            font-size: 11px;
+        }
+        .legend-item { display: flex; align-items: center; gap: 5px; }
+        .legend-dot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid #333; }
+        
+        /* Tables */
+        .state-section { margin-bottom: 12px; page-break-inside: avoid; }
+        .state-header {
+            background: #333;
+            color: white;
+            padding: 6px 10px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .state-header span {
+            float: right;
+            background: white;
+            color: #333;
+            padding: 0 8px;
+            border-radius: 10px;
+            font-size: 11px;
+        }
+        
+        table { width: 100%; border-collapse: collapse; font-size: 10px; }
+        th, td { border: 1px solid #ccc; padding: 5px 7px; text-align: left; }
+        th { background: #f5f5f5; }
+        
+        .footer {
+            text-align: center;
+            font-size: 10px;
+            color: #999;
+            margin-top: 15px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>📍 DAFTRA Clients - 34 Locations</h1>
+    <p class="subtitle">Virginia • New York • Pennsylvania • Michigan • Maryland • Washington DC</p>
+    
+    <div class="map-container">
+        <!-- State labels -->
+        <div class="state-label" style="left:25%; top:15%;">MI</div>
+        <div class="state-label" style="left:38%; top:20%;">OH</div>
+        <div class="state-label" style="left:50%; top:25%;">WV</div>
+        <div class="state-label" style="left:60%; top:30%;">VA</div>
+        <div class="state-label" style="left:75%; top:18%;">NY</div>
+        <div class="state-label" style="left:55%; top:35%;">NC</div>
+        
+        <!-- Virginia pins -->
+        <div class="pin pin-va" data-name="Danville" style="left:30%; top:42%;"></div>
+        <div class="pin pin-va" data-name="Manassas" style="left:26%; top:30%;"></div>
+        <div class="pin pin-va" data-name="Newport News" style="left:38%; top:38%;"></div>
+        <div class="pin pin-va" data-name="Portsmouth" style="left:36%; top:36%;"></div>
+        <div class="pin pin-va" data-name="Richmond" style="left:32%; top:34%;"></div>
+        <div class="pin pin-va" data-name="Virginia Beach" style="left:44%; top:44%;"></div>
+        
+        <!-- NY pins -->
+        <div class="pin pin-ny" data-name="Bronx" style="left:58%; top:28%;"></div>
+        <div class="pin pin-ny" data-name="Brooklyn" style="left:56%; top:30%;"></div>
+        <div class="pin pin-ny" data-name="Buffalo" style="left:52%; top:22%;"></div>
+        <div class="pin pin-ny" data-name="Rochester" style="left:54%; top:24%;"></div>
+        <div class="pin pin-ny" data-name="Syracuse" style="left:56%; top:20%;"></div>
+        
+        <!-- PA pins -->
+        <div class="pin pin-pa" data-name="Pittsburgh" style="left:40%; top:28%;"></div>
+        
+        <!-- MI pins -->
+        <div class="pin pin-mi" data-name="Detroit" style="left:26%; top:22%;"></div>
+        <div class="pin pin-mi" data-name="Dearborn" style="left:24%; top:20%;"></div>
+        <div class="pin pin-mi" data-name="Flint" style="left:22%; top:18%;"></div>
+        <div class="pin pin-mi" data-name="Kalamazoo" style="left:20%; top:26%;"></div>
+        
+        <!-- MD/DC pins -->
+        <div class="pin pin-md" data-name="Seat Pleasant" style="left:48%; top:32%;"></div>
+        <div class="pin pin-dc" data-name="Washington DC" style="left:46%; top:30%;"></div>
+    </div>
+    
+    <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#e94560;"></div> VA (8)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ffd700;"></div> NY (7)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#28a745;"></div> PA (7)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#17a2b8;"></div> MI (8)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#6f42c1;"></div> MD (3)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#fd7e14;"></div> DC (1)</div>
+    </div>
+
+    <!-- Virginia Table -->
+    <div class="state-section">
+        <div class="state-header">Virginia <span>8</span></div>
+        <table>
+            <tr><th>Client</th><th>City</th><th>Phone</th></tr>
+            <tr><td>Fabulous Beauty Supply 2</td><td>Danville</td><td>434-228-7283</td></tr>
+            <tr><td>Beauty Palace & Supplies</td><td>Manassas</td><td>571-359-6821</td></tr>
+            <tr><td>Hair Galleria</td><td>Newport News</td><td>757-782-2752</td></tr>
+            <tr><td>Beauty Master</td><td>Portsmouth</td><td>757-393-7497</td></tr>
+            <tr><td>The Hair Palace</td><td>Richmond</td><td>804-728-3807</td></tr>
+            <tr><td>Lux Beauty</td><td>Virginia Beach</td><td>757-937-6306</td></tr>
+        </table>
+    </div>
+
+    <!-- New York Table -->
+    <div class="state-section">
+        <div class="state-header">New York <span>7</span></div>
+        <table>
+            <tr><th>Client</th><th>City</th><th>Phone</th></tr>
+            <tr><td>Beauty Feel Supply</td><td>Bronx</td><td>-</td></tr>
+            <tr><td>Moon Beauty Supply</td><td>Brooklyn</td><td>718-495-9803</td></tr>
+            <tr><td>Hair Que</td><td>Buffalo</td><td>716-259-9698</td></tr>
+            <tr><td>Hair Galleria</td><td>Rochester</td><td>585-445-8068</td></tr>
+            <tr><td>Lux Beauty Supply</td><td>Syracuse</td><td>315-991-8378</td></tr>
+        </table>
+    </div>
+
+    <!-- Pennsylvania Table -->
+    <div class="state-section">
+        <div class="state-header">Pennsylvania <span>7</span></div>
+        <table>
+            <tr><th>Client</th><th>City</th><th>Phone</th></tr>
+            <tr><td>Modern Hair Beauty Supply</td><td>Pittsburgh</td><td>412-891-6338</td></tr>
+            <tr><td>Hair World PA</td><td>Penn Hills</td><td>412-385-9566</td></tr>
+            <tr><td>Elegant Beauty 1</td><td>Pittsburgh</td><td>412-227-0200</td></tr>
+            <tr><td>Queen's Hair & Beauty</td><td>Pittsburgh</td><td>412-708-9526</td></tr>
+            <tr><td>Sky's the Limit</td><td>Pittsburgh</td><td>412-441-5500</td></tr>
+            <tr><td>The Hair Depot PA</td><td>Pittsburgh</td><td>412-533-9944</td></tr>
+        </table>
+    </div>
+
+    <!-- Michigan Table -->
+    <div class="state-section">
+        <div class="state-header">Michigan <span>8</span></div>
+        <table>
+            <tr><th>Client</th><th>City</th><th>Phone</th></tr>
+            <tr><td>Beauty Plus</td><td>Detroit</td><td>313-977-9900</td></tr>
+            <tr><td>Sapphire Beauty</td><td>Detroit</td><td>313-340-9951</td></tr>
+            <tr><td>M & A Beauty Supply</td><td>Flint</td><td>-</td></tr>
+            <tr><td>Unique Fashion & Beauty</td><td>Kalamazoo</td><td>-</td></tr>
+            <tr><td>Jin Wig & Beauty</td><td>Livonia</td><td>-</td></tr>
+            <tr><td>Crown Jewel Beauty</td><td>Southfield</td><td>-</td></tr>
+            <tr><td>Beauty Central</td><td>Westland</td><td>-</td></tr>
+        </table>
+    </div>
+
+    <!-- Maryland/DC Table -->
+    <div class="state-section">
+        <div class="state-header">Maryland (3) + DC (1) <span>4</span></div>
+        <table>
+            <tr><th>Client</th><th>City</th><th>Phone</th></tr>
+            <tr><td>Super Beauty</td><td>Seat Pleasant, MD</td><td>301-499-5400</td></tr>
+            <tr><td>Super Beauty</td><td>Hyattsville, MD</td><td>301-583-8705</td></tr>
+            <tr><td>The Hair Depot One</td><td>Forestville, MD</td><td>240-563-1215</td></tr>
+            <tr><td>Number 1 Beauty Supply</td><td>Washington DC</td><td>202-780-8852</td></tr>
+        </table>
+    </div>
+
+    <div class="footer">
+        Generated from DAFTRA CRM • Total: 34 Clients
+    </div>
+</body>
+</html>
