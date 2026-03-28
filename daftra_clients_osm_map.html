@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAFTRA Clients - All Locations</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; background: #0d1117; }
+        #map { height: 100%; width: 100%; }
+        
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(13, 17, 23, 0.95);
+            padding: 10px 15px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #30363d;
+        }
+        .header h1 { color: #58a6ff; font-size: 1rem; }
+        
+        .legend {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(13, 17, 23, 0.95);
+            padding: 12px;
+            border-radius: 8px;
+            z-index: 1000;
+            border: 1px solid #30363d;
+        }
+        .legend-item { display: flex; align-items: center; gap: 8px; margin: 4px 0; font-size: 0.75rem; color: #8b949e; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        
+        .state-selector {
+            position: fixed;
+            top: 50px;
+            right: 10px;
+            background: rgba(13, 17, 23, 0.95);
+            padding: 10px;
+            border-radius: 8px;
+            z-index: 1000;
+            border: 1px solid #30363d;
+        }
+        .state-selector button {
+            display: block;
+            width: 100%;
+            padding: 6px 12px;
+            margin: 4px 0;
+            background: #21262d;
+            color: #e6edf3;
+            border: 1px solid #30363d;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .state-selector button:hover { background: #30363d; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📍 DAFTRA Clients - 34 Locations</h1>
+    </div>
+    
+    <div class="state-selector">
+        <button onclick="showAll()">Show All</button>
+        <button onclick="showState('VA')">Virginia (8)</button>
+        <button onclick="showState('NY')">New York (7)</button>
+        <button onclick="showState('PA')">Pennsylvania (7)</button>
+        <button onclick="showState('MI')">Michigan (8)</button>
+        <button onclick="showState('MD')">Maryland (3)</button>
+        <button onclick="showState('DC')">DC (1)</button>
+    </div>
+    
+    <div class="legend">
+        <div class="legend-item"><div class="dot" style="background:#e94560;"></div> Virginia</div>
+        <div class="legend-item"><div class="dot" style="background:#ffd700;"></div> New York</div>
+        <div class="legend-item"><div class="dot" style="background:#4ecca3;"></div> Pennsylvania</div>
+        <div class="legend-item"><div class="dot" style="background:#00bfff;"></div> Michigan</div>
+        <div class="legend-item"><div class="dot" style="background:#9b59b6;"></div> Maryland</div>
+        <div class="legend-item"><div class="dot" style="background:#f39c12;"></div> DC</div>
+    </div>
+    
+    <div id="map"></div>
+    
+    <script>
+        var map = L.map('map').setView([38.5, -82], 6);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19
+        }).addTo(map);
+        
+        var colors = {
+            'VA': '#e94560',
+            'NY': '#ffd700',
+            'PA': '#4ecca3',
+            'MI': '#00bfff',
+            'MD': '#9b59b6',
+            'DC': '#f39c12'
+        };
+        
+        var clients = [
+            // Virginia
+            {name: "Fabulous Beauty Supply 2", city: "Danville, VA", lat: 36.58, lng: -79.39, state: "VA"},
+            {name: "Beauty Palace & Supplies", city: "Manassas, VA", lat: 38.75, lng: -77.47, state: "VA"},
+            {name: "Hair Galleria", city: "Newport News, VA", lat: 37.08, lng: -76.49, state: "VA"},
+            {name: "Beauty Master", city: "Portsmouth, VA", lat: 36.83, lng: -76.30, state: "VA"},
+            {name: "The Hair Palace", city: "Richmond, VA", lat: 37.54, lng: -77.43, state: "VA"},
+            {name: "Hair Palace Southside", city: "Richmond, VA", lat: 37.50, lng: -77.47, state: "VA"},
+            {name: "Lux Beauty", city: "Virginia Beach, VA", lat: 36.85, lng: -75.97, state: "VA"},
+            
+            // New York
+            {name: "Beauty Feel Supply", city: "Bronx, NY", lat: 40.84, lng: -73.86, state: "NY"},
+            {name: "Moon Beauty Supply", city: "Brooklyn, NY", lat: 40.65, lng: -73.94, state: "NY"},
+            {name: "Hair Que", city: "Buffalo, NY", lat: 42.88, lng: -78.88, state: "NY"},
+            {name: "Eve Hair & Beauty", city: "Buffalo, NY", lat: 42.88, lng: -78.88, state: "NY"},
+            {name: "Hair Galleria", city: "Rochester, NY", lat: 43.15, lng: -77.62, state: "NY"},
+            {name: "Lavish Beauty Supply", city: "Rochester, NY", lat: 43.15, lng: -77.62, state: "NY"},
+            {name: "Lux Beauty Supply", city: "Syracuse, NY", lat: 43.04, lng: -76.15, state: "NY"},
+            
+            // Pennsylvania
+            {name: "Modern Hair Beauty", city: "Pittsburgh, PA", lat: 40.42, lng: -80.00, state: "PA"},
+            {name: "Hair World PA", city: "Penn Hills, PA", lat: 40.46, lng: -79.84, state: "PA"},
+            {name: "Elegant Beauty 1", city: "Pittsburgh, PA", lat: 40.45, lng: -79.98, state: "PA"},
+            {name: "Hair Land & Fashion", city: "Pittsburgh, PA", lat: 40.45, lng: -80.00, state: "PA"},
+            {name: "Queen's Hair & Beauty", city: "Pittsburgh, PA", lat: 40.45, lng: -80.00, state: "PA"},
+            {name: "Sky's the Limit", city: "Pittsburgh, PA", lat: 40.46, lng: -79.92, state: "PA"},
+            {name: "The Hair Depot PA", city: "Pittsburgh, PA", lat: 40.43, lng: -79.89, state: "PA"},
+            
+            // Michigan
+            {name: "Beauty Plus", city: "Detroit, MI", lat: 42.41, lng: -83.25, state: "MI"},
+            {name: "Kay Beauty Supply", city: "Dearborn, MI", lat: 42.30, lng: -83.24, state: "MI"},
+            {name: "Sapphire Beauty", city: "Detroit, MI", lat: 42.41, lng: -83.06, state: "MI"},
+            {name: "M & A Beauty Supply", city: "Flint, MI", lat: 42.93, lng: -83.69, state: "MI"},
+            {name: "Unique Fashion & Beauty", city: "Kalamazoo, MI", lat: 42.29, lng: -85.58, state: "MI"},
+            {name: "Jin Wig & Beauty", city: "Livonia, MI", lat: 42.37, lng: -83.37, state: "MI"},
+            {name: "Crown Jewel Beauty", city: "Southfield, MI", lat: 42.50, lng: -83.25, state: "MI"},
+            {name: "Beauty Central", city: "Westland, MI", lat: 42.33, lng: -83.40, state: "MI"},
+            
+            // Maryland
+            {name: "Super Beauty", city: "Seat Pleasant, MD", lat: 38.90, lng: -76.93, state: "MD"},
+            {name: "Super Beauty", city: "Hyattsville, MD", lat: 38.96, lng: -76.93, state: "MD"},
+            {name: "The Hair Depot One", city: "Forestville, MD", lat: 38.85, lng: -76.86, state: "MD"},
+            
+            // DC
+            {name: "Number 1 Beauty Supply", city: "Washington, DC", lat: 38.89, lng: -77.00, state: "DC"}
+        ];
+        
+        var markers = [];
+        
+        clients.forEach(function(c) {
+            var marker = L.circleMarker([c.lat, c.lng], {
+                radius: 10,
+                fillColor: colors[c.state],
+                color: '#fff',
+                weight: 2,
+                fillOpacity: 0.8
+            }).bindPopup("<b>" + c.name + "</b><br>" + c.city);
+            
+            marker.state = c.state;
+            marker.addTo(map);
+            markers.push(marker);
+        });
+        
+        function showAll() {
+            map.setView([38.5, -82], 6);
+            markers.forEach(function(m) { m.setStyle({fillOpacity: 0.8}); });
+        }
+        
+        function showState(state) {
+            var stateMarkers = markers.filter(function(m) { return m.state === state; });
+            if (stateMarkers.length > 0) {
+                var group = L.featureGroup(stateMarkers);
+                map.fitBounds(group.getBounds(), {padding: [50, 50]});
+            }
+            markers.forEach(function(m) {
+                if (m.state === state) {
+                    m.setStyle({fillOpacity: 1});
+                } else {
+                    m.setStyle({fillOpacity: 0.2});
+                }
+            });
+        }
+    </script>
+</body>
+</html>
